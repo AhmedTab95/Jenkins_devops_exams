@@ -16,8 +16,6 @@ stages {
                 sleep 6
                 '''
                 }
-            }
-            steps {
                 script {
                 sh '''
                  docker rm -f jenkins
@@ -35,8 +33,6 @@ stages {
                     sleep 10
                     '''
                     }
-                }
-                steps {
                     script {
                     sh '''
                     docker run -d -p 8080:8000 --name movie-service $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG
@@ -53,15 +49,12 @@ stages {
                     curl http://localhost:8080/api/v1/casts/docs 
                     '''
                     }
-            }
-            steps {
                     script {
                     sh '''
                     curl http://localhost:8080/api/v1/movies/docs 
                     '''
                     }
             }
-
         }
         stage('Docker Push'){ //we pass the built image to our docker hub account
             environment
