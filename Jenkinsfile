@@ -89,9 +89,9 @@ stage('Deploiement en dev'){
                 mkdir .kube
                 ls
                 cat $KUBECONFIG > .kube/config
-                cat values.yml
-                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install exapp --values=values.yml --n dev
+                cat values.yaml
+                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
+                helm upgrade --install exapp --values=values.yaml --n dev
                 '''
                 }
             }
@@ -109,9 +109,9 @@ stage('Deploiement en QA'){
                 mkdir .kube
                 ls
                 cat $KUBECONFIG > .kube/config
-                cat values.yml
-                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install exapp --values=values.yml -n qa
+                cat values.yaml
+                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
+                helm upgrade --install exapp --values=values.yaml -n qa
                 '''
                 }
             }
@@ -129,9 +129,9 @@ stage('Deploiement en staging'){
                 mkdir .kube
                 ls
                 cat $KUBECONFIG > .kube/config
-                cat values.yml
-                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install exapp --values=values.yml -n staging
+                cat values.yaml
+                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
+                helm upgrade --install exapp --values=values.yaml -n staging
                 '''
                 }
             }
@@ -154,10 +154,10 @@ stage('Deploiement en staging'){
                 rm -Rf .kube
                 mkdir .kube
                 ls
-                cp fastapi/values.yaml values.yml
-                cat values.yml
-                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
-                helm upgrade --install exapp --values=values.yml -n prod
+                cp fastapi/values.yaml values.yaml
+                cat values.yaml
+                sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
+                helm upgrade --install exapp --values=values.yaml -n prod
                 '''
                 }
             }
