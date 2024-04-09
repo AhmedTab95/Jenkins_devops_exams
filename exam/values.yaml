@@ -209,6 +209,6 @@ nginx:
    service:
       name: nginx-entrypoint
       app: nginx
-      port: 8081
+      port: 8088
       targetPort: 8080
 
