@@ -9,17 +9,25 @@ agent any // Jenkins will be able to select all available agents
 stages {
         stage('Docker Build'){ // docker build image stage
             steps {
+                // script {
+                // sh '''
+                //  docker rm -f jenkins
+                //  docker build -t $DOCKER_ID/$DOCKER_CAST:$DOCKER_TAG .
+                // sleep 6
+                // '''
+                // }
+                // script {
+                // sh '''
+                //  docker rm -f jenkins
+                //  docker build -t $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG .
+                // sleep 6
+                // '''
+                // }
+
                 script {
                 sh '''
                  docker rm -f jenkins
-                 docker build -t $DOCKER_ID/$DOCKER_CAST:$DOCKER_TAG .
-                sleep 6
-                '''
-                }
-                script {
-                sh '''
-                 docker rm -f jenkins
-                 docker build -t $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG .
+                 docker-compose up -d
                 sleep 6
                 '''
                 }
