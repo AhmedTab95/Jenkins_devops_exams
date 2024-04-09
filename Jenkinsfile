@@ -12,14 +12,14 @@ stages {
                 script {
                 sh '''
                  docker rm -f jenkins
-                 docker build -t $DOCKER_ID/$DOCKER_CAST:$DOCKER_TAG ./cast-service/Dockerfile
+                 docker build -t $DOCKER_ID/$DOCKER_CAST:$DOCKER_TAG -f ./cast-service/Dockerfile
                 sleep 6
                 '''
                 }
                 script {
                 sh '''
                  docker rm -f jenkins
-                 docker build -t $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG ./movie-service/Dockerfile
+                 docker build -t $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG -f ./movie-service/Dockerfile
                 sleep 6
                 '''
                 }
