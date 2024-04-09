@@ -31,13 +31,13 @@ stages {
                 steps {
                     script {
                     sh '''
-                    docker run -d -p 8080:8000 --name cast-service $DOCKER_ID/$DOCKER_CAST:$DOCKER_TAG
+                    docker run -d -p 80:8000 --name cast-service $DOCKER_ID/$DOCKER_CAST:$DOCKER_TAG
                     sleep 10
                     '''
                     }
                     script {
                     sh '''
-                    docker run -d -p 8080:8000 --name movie-service $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG
+                    docker run -d -p 80:8000 --name movie-service $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG
                     sleep 10
                     '''
                     }
