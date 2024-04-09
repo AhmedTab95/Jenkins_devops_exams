@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.movie.deployment.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.movie.deployment.app }}
+spec:
+  replicas: {{ .Values.movie.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.movie.deployment.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.movie.deployment.app }}
+    spec:
+      containers:
+        - name: {{ .Values.movie.deployment.container.name }}
+          image: {{ .Values.movie.deployment.container.image }}
+          imagePullPolicy: {{ .Values.movie.deployment.container.imagePullPolicy }}
+          ports:
+            - containerPort: {{ .Values.movie.deployment.container.port }}
+          command: {{ .Values.movie.deployment.container.command }}
+          env:
+            - name: {{ .Values.movie.deployment.container.env.dbName }}
+              value: {{ .Values.movie.deployment.container.env.dbValue }}
+            - name: {{ .Values.movie.deployment.container.env.castName }}
+              value: {{ .Values.movie.deployment.container.env.castValue }}
+
+          volumeMounts:
+            - mountPath: {{ .Values.movie.deployment.container.volumeMounts.mountPath }}
+              name: {{ .Values.movie.deployment.container.volumeMounts.name }}
+      volumes:
+        - name: {{ .Values.movie.deployment.volumes.name }}
+          hostPath:
+            path: {{ .Values.movie.deployment.volumes.path }}
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: {{ .Values.movie.service.name }} 
+   namespace: {{ .Values.namespace }}
+spec:
+   selector:
+      app: {{ .Values.movie.service.app }}
+   ports:
+      - port: {{ .Values.movie.service.port }}
+        targetPort: {{ .Values.movie.service.targetPort }}
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.movie.ingress.name }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.movie.ingress.clusterIssuer }}
+spec: 
+  ingressClassName: {{ .Values.movie.ingress.ingressClassName }}
+  tls:
+    - secretName: {{ .Values.movie.ingress.secretName }}
+      hosts:
+        - {{ .Values.movie.ingress.hostname }}
+
+  rules:
+  - host: {{ .Values.movie.ingress.hostname }}
+    http:
+      paths:
+        - path: {{ .Values.movie.ingress.path }}
+          pathType: {{ .Values.movie.ingress.pathType }}
+          backend:
+             service:
+              name: {{ .Values.movie.ingress.serviceName }}
+              port:
+                number: {{ .Values.movie.ingress.port }}
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+ name: {{ .Values.movie.hpa.name }}
+ namespace: {{ .Values.namespace }}
+spec:
+ scaleTargetRef:
+   apiVersion: {{ .Values.movie.hpa.scaleTargetRef.apiVersion }}
+   kind: {{ .Values.movie.hpa.scaleTargetRef.kind }}
+   name: {{ .Values.movie.hpa.scaleTargetRef.name }}
+ minReplicas: {{ .Values.movie.hpa.minReplicas }}
+ maxReplicas: {{ .Values.movie.hpa.maxReplicas }}
+ targetCPUUtilizationPercentage: {{ .Values.movie.hpa.targetCPU }}
