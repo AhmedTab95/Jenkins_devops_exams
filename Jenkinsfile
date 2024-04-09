@@ -90,7 +90,7 @@ stage('Deploiement en dev'){
                 cat $KUBECONFIG > .kube/config
                 cd exam
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
-                helm upgrade --install exapp --values=values.yaml -n dev
+                helm upgrade --install exapp . --values=values.yaml -n dev
                 '''
                 }
             }
@@ -109,7 +109,7 @@ stage('Deploiement en QA'){
                 cat $KUBECONFIG > .kube/config
                 cd exam
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
-                helm upgrade --install exapp --values=values.yaml -n qa
+                helm upgrade --install exapp . --values=values.yaml -n qa
                 '''
                 }
             }
@@ -128,7 +128,7 @@ stage('Deploiement en staging'){
                 cat $KUBECONFIG > .kube/config
                 cd exam
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
-                helm upgrade --install exapp --values=values.yaml -n staging
+                helm upgrade --install exapp . --values=values.yaml -n staging
                 '''
                 }
             }
@@ -153,7 +153,7 @@ stage('Deploiement en staging'){
                 cat $KUBECONFIG > .kube/config
                 cd exam
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
-                helm upgrade --install exapp --values=values.yaml -n prod
+                helm upgrade --install exapp . --values=values.yaml -n prod
                 '''
                 }
             }
