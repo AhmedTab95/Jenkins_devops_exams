@@ -19,7 +19,8 @@ stages {
                 }
                 script {
                 sh '''
-                 cd ../movie-service
+                 pwd
+                 cd movie-service
                  docker build -t $DOCKER_ID/$DOCKER_MOVIE:$DOCKER_TAG -f .
                 sleep 6
                 '''
