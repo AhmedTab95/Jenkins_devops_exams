@@ -90,6 +90,7 @@ stage('Deploiement en dev'){
                 cat $KUBECONFIG > .kube/config
                 cd exam
                 sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yaml
+                echo "============ START ============"
                 helm upgrade --install exapp . --values=values.yaml -n dev
                 '''
                 }
